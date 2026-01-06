@@ -34,8 +34,10 @@ jobs:
 
       - name: Upload coverage
         if: steps.check_files.outputs.has_go_files == 'true'
+        continue-on-error: true
         uses: codecov/codecov-action@v4
         with:
+          token: ${{ secrets.CODECOV_TOKEN }}
           file: ./coverage.out
 
   lint:
@@ -63,7 +65,7 @@ jobs:
         if: steps.check_files.outputs.has_go_files == 'true'
         uses: golangci/golangci-lint-action@v6
         with:
-          version: latest
+          version: v1.64.2
 
   format:
     name: Format Check
