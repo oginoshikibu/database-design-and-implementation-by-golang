@@ -1,0 +1,96 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.23'
+
+      - name: Check for Go files
+        id: check_files
+        run: |
+          if find . -name "*.go" -not -path "./vendor/*" | grep -q .; then
+            echo "has_go_files=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_go_files=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Run tests
+        if: steps.check_files.outputs.has_go_files == 'true'
+        run: go test -v -race -coverprofile=coverage.out ./...
+
+      - name: Upload coverage
+        if: steps.check_files.outputs.has_go_files == 'true'
+        uses: codecov/codecov-action@v4
+        with:
+          file: ./coverage.out
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.23'
+
+      - name: Check for Go files
+        id: check_files
+        run: |
+          if find . -name "*.go" -not -path "./vendor/*" | grep -q .; then
+            echo "has_go_files=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_go_files=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Run golangci-lint
+        if: steps.check_files.outputs.has_go_files == 'true'
+        uses: golangci/golangci-lint-action@v6
+        with:
+          version: latest
+
+  format:
+    name: Format Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.23'
+
+      - name: Check for Go files
+        id: check_files
+        run: |
+          if find . -name "*.go" -not -path "./vendor/*" | grep -q .; then
+            echo "has_go_files=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_go_files=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Check formatting
+        if: steps.check_files.outputs.has_go_files == 'true'
+        run: |
+          if [ -n "$(gofmt -l .)" ]; then
+            echo "The following files are not formatted:"
+            gofmt -l .
+            exit 1
+          fi
