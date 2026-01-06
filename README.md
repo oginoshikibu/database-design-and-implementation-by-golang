@@ -51,15 +51,33 @@ golangci-lint run
 gofmt -w .
 ```
 
+## GitHub Copilot Code Reviewの設定
+
+このリポジトリでは、GitHub Copilotによる自動コードレビューを推奨しています。
+
+### 有効化手順
+
+1. リポジトリの **Settings** > **Code security and analysis** に移動
+2. **Copilot** セクションを探す
+3. **Copilot Code Review** を有効化する
+
+これにより、Pull Request作成時にCopilotが自動的にコードレビューを提供します。
+
+レビュー時の重点ポイントは `.github/copilot-instructions.md` に記載されています。
+
 ## ディレクトリ構成
 
 ```
 .
-├── .github/          # GitHub Actions設定
-├── .mise.toml        # mise設定
-├── .golangci.yml     # golangci-lint設定
-├── go.mod            # Go modules
-└── README.md         # このファイル
+├── .github/
+│   ├── workflows/               # GitHub Actions設定
+│   ├── copilot-instructions.md  # Copilotへのレビュー指示
+│   ├── copilot-workspace.yml    # Copilot Workspace設定
+│   └── pull_request_template.md # PRテンプレート
+├── .mise.toml                   # mise設定
+├── .golangci.yml                # golangci-lint設定
+├── go.mod                       # Go modules
+└── README.md                    # このファイル
 ```
 
 実装は今後追加していきます。

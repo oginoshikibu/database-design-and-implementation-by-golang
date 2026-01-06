@@ -1,0 +1,50 @@
+# GitHub Copilot Workspace Configuration
+
+# プロジェクトの概要
+description: |
+  このプロジェクトは「Database Design and Implementation」（Springer出版）に基づいた
+  SimpleDBのGo実装です。データベース管理システムの内部構造を学ぶための教育的プロジェクトです。
+
+# 重要なファイルとディレクトリ（今後追加される予定）
+important_files:
+  - "README.md"
+  - ".github/copilot-instructions.md"
+  - "go.mod"
+
+# プロジェクトの技術スタック
+technologies:
+  - Go 1.23
+  - golangci-lint
+  - GitHub Actions
+
+# コーディング規約
+conventions:
+  - "Go標準のコーディング規約に従う"
+  - "gofmtでフォーマット"
+  - "golangci-lintのチェックをパス"
+  - "公開APIにはGoDocコメントを記述"
+  - "エラーはfmt.Errorfでラップ"
+
+# アーキテクチャパターン（今後実装予定）
+architecture:
+  layers:
+    - name: "ストレージ層"
+      description: "ファイルI/O、ページ管理"
+    - name: "バッファ層"
+      description: "バッファプール管理"
+    - name: "ログ層"
+      description: "トランザクションログ"
+    - name: "トランザクション層"
+      description: "ACID特性の保証、同時実行制御"
+    - name: "レコード層"
+      description: "スキーマ、レイアウト管理"
+    - name: "メタデータ層"
+      description: "カタログ、統計情報"
+    - name: "インデックス層"
+      description: "B-Treeインデックス"
+    - name: "クエリ実行層"
+      description: "スキャン、実行エンジン"
+    - name: "プランナー層"
+      description: "クエリ最適化"
+    - name: "パーサー層"
+      description: "SQL解析"
