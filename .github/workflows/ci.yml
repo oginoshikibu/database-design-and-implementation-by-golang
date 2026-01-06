@@ -19,10 +19,21 @@ jobs:
         with:
           go-version: '1.23'
 
+      - name: Check for Go files
+        id: check_files
+        run: |
+          if find . -name "*.go" -not -path "./vendor/*" | grep -q .; then
+            echo "has_go_files=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_go_files=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Run tests
+        if: steps.check_files.outputs.has_go_files == 'true'
         run: go test -v -race -coverprofile=coverage.out ./...
 
       - name: Upload coverage
+        if: steps.check_files.outputs.has_go_files == 'true'
         uses: codecov/codecov-action@v4
         with:
           file: ./coverage.out
@@ -39,7 +50,17 @@ jobs:
         with:
           go-version: '1.23'
 
+      - name: Check for Go files
+        id: check_files
+        run: |
+          if find . -name "*.go" -not -path "./vendor/*" | grep -q .; then
+            echo "has_go_files=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_go_files=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Run golangci-lint
+        if: steps.check_files.outputs.has_go_files == 'true'
         uses: golangci/golangci-lint-action@v6
         with:
           version: latest
@@ -56,7 +77,17 @@ jobs:
         with:
           go-version: '1.23'
 
+      - name: Check for Go files
+        id: check_files
+        run: |
+          if find . -name "*.go" -not -path "./vendor/*" | grep -q .; then
+            echo "has_go_files=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_go_files=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Check formatting
+        if: steps.check_files.outputs.has_go_files == 'true'
         run: |
           if [ -n "$(gofmt -l .)" ]; then
             echo "The following files are not formatted:"
