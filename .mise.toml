@@ -1,6 +1,6 @@
 [tools]
 go = "1.23"
-golangci-lint = "latest"
+golangci-lint = "v1.64.2"
 
 [env]
 _.path = ["./bin"]
