@@ -70,13 +70,14 @@ gofmt -w .
 ```
 .
 ├── .github/
-│   ├── workflows/              # GitHub Actions設定
-│   ├── copilot-instructions.md # Copilotへのレビュー指示
+│   ├── workflows/               # GitHub Actions設定
+│   ├── copilot-instructions.md  # Copilotへのレビュー指示
+│   ├── copilot-workspace.yml    # Copilot Workspace設定
 │   └── pull_request_template.md # PRテンプレート
-├── .mise.toml                  # mise設定
-├── .golangci.yml               # golangci-lint設定
-├── go.mod                      # Go modules
-└── README.md                   # このファイル
+├── .mise.toml                   # mise設定
+├── .golangci.yml                # golangci-lint設定
+├── go.mod                       # Go modules
+└── README.md                    # このファイル
 ```
 
 実装は今後追加していきます。
